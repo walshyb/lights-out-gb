@@ -1,0 +1,1 @@
+def NB_PB8_BLOCKS equ ((528) + 7) / 8
