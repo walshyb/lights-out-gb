@@ -2,6 +2,13 @@
 INCLUDE "hardware.inc/hardware.inc"
 	rev_Check_hardware_inc 4.0
 
+SECTION "GameVariables", WRAM0
+
+  wLastKeys:: db
+  wCurKeys:: db
+  wNewKeys:: db
+  wGameState::db
+
 SECTION "Header", ROM0[$100]
 
 	; This is your ROM's entry point
@@ -20,10 +27,33 @@ SECTION "Header", ROM0[$100]
 SECTION "Entry point", ROM0
 
 EntryPoint:
-	; Here is where the fun begins, happy coding :)
-
   call WaitForOneVBlank
-  call TurnOffLCD
+
+  ; Init sprite object library
+  call InitSprObjLibWrapper
+
+  call ClearBackground
+  
+  ; turn off LCD
+  ld a, 0
+  ld [rLCDC], a
+
+  ld a, 0
+  ld [rSCX], a
+  ld [rSCY], a
+  ld [rWX], a
+  ld [rWY], a
+
+  ; disable interrupts
+  ;call DisableInterrupts
+  ld a, 0
+	ldh [rSTAT], a
+	di
+
+  call InitTitleScreen
+
+  ;call LoadTitleScreen
+
   ; Clear OAM
   ; Initialize OAM data
   ; Initialize title screen

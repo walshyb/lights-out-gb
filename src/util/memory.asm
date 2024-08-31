@@ -9,7 +9,7 @@ SECTION "Memcpy", ROM0
 ; @return bc 0
 ; @return a 0
 ; @return f Z set, C reset
-Memcpy::
+MemCpy::
 	; Increment B if C is non-zero
 	dec bc
 	inc b
@@ -24,3 +24,15 @@ Memcpy::
 	jr nz, .loop
 	ret
 
+
+MemCpy520Offset::
+
+  ld a, [de]
+  add a, 52
+  ld [hli], a
+  inc de
+  dec bc
+  ld a, b
+  or a, c
+  jp nz, MemCpy520Offset 
+  ret
