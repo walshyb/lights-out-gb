@@ -1,212 +1,30 @@
 SUMMARY:
-	ROM0: 1790 bytes used / 14594 free
-	ROMX: 11 bytes used / 16373 free in 1 bank
-	WRAM0: 231 bytes used / 3865 free
-	HRAM: 22 bytes used / 105 free
+	ROM0: 172 bytes used / 16212 free
+	WRAM0: 1 byte used / 4095 free
 
 ROM0 bank #0:
-	SECTION: $0000-$0002 ($0003 bytes) ["Rst $00"]
-	         $0000 = NULL
-	EMPTY: $0003-$0007 ($0005 bytes)
-	SECTION: $0008-$000e ($0007 bytes) ["Rst $08"]
-	         $0008 = WaitVBlank
-	         $000c = WaitVBlank.wait
-	SECTION: $000f-$0017 ($0009 bytes) ["Rst $10"]
-	         $000f = MemsetLoop
-	         $0010 = Memset
-	SECTION: $0018-$001e ($0007 bytes) ["Rst $18"]
-	         $0018 = MemcpySmall
-	EMPTY: $001f-$001f ($0001 byte)
-	SECTION: $0020-$0024 ($0005 bytes) ["Rst $20"]
-	         $0020 = MemsetSmall
-	SECTION: $0025-$002c ($0008 bytes) ["Rst $28"]
-	         $0025 = JumpToPtr
-	         $0028 = CallHL
-	EMPTY: $002d-$002f ($0003 bytes)
-	SECTION: $0030-$0034 ($0005 bytes) ["Rst $30"]
-	         $0030 = CallDE
-	EMPTY: $0035-$0037 ($0003 bytes)
-	SECTION: $0038-$003b ($0004 bytes) ["Rst $38"]
-	         $0038 = Crash
-	EMPTY: $003c-$003f ($0004 bytes)
-	SECTION: $0040-$0046 ($0007 bytes) ["VBlank handler stub"]
-	SECTION: $0047-$0076 ($0030 bytes) ["pb16"]
-	         $0047 = pb16_unpack_packet
-	         $004c = pb16_unpack_packet.byteloop
-	         $0052 = pb16_unpack_packet.p0_is_literal
-	         $0056 = pb16_unpack_packet.have_p0
-	         $005c = pb16_unpack_packet.p1_is_copy
-	         $005f = pb16_unpack_packet.have_p1
-	         $0065 = pb16_unpack_block
-	         $0069 = pb16_unpack_block.packetloop
-	SECTION: $0077-$0089 ($0013 bytes) ["LCDMemcpy"]
-	         $0077 = LCDMemcpy
-	         $007a = !3
-	         $007a = LCDMemcpy.loop
-	EMPTY: $008a-$0090 ($0007 bytes)
-	SECTION: $0091-$00ff ($006f bytes) ["VBlank handler"]
-	         $0091 = VBlankHandler
-	         $00b0 = VBlankHandler.noOAMTransfer
-	         $00cf = VBlankHandler.notUpAndDown
-	         $00d6 = VBlankHandler.notLeftAndRight
-	         $00e5 = VBlankHandler.dontReset
-	         $00f6 = VBlankHandler.lagFrame
-	         $00f8 = VBlankHandler.perhapsReset
-	SECTION: $0100-$01a2 ($00a3 bytes) ["Header"]
-	         $0150 = EntryPoint
-	         $0152 = Reset
-	         $0156 = Reset.waitVBlank
-	         $016d = Reset.copyOAMDMA
-	SECTION: $01a3-$0620 ($047e bytes) ["Crash handler"]
-	         $01a3 = HandleCrash
-	         $01e0 = HandleCrash.copyAcross
-	         $01f4 = HandleCrash.bank0
-	         $0202 = HandleCrash.writeAttrRow
-	         $0234 = HandleCrash.pb8BlockLoop
-	         $0239 = HandleCrash.pb8BitLoop
-	         $023c = HandleCrash.pb8Repeat
-	         $0258 = HandleCrash.writeHeaderLine
-	         $0298 = HandleCrash.writeDump
-	         $02db = HandleCrash.writeBank
-	         $02f1 = HandleCrash.banksDone
-	         $02f9 = HandleCrash.writeBuildDate
-	         $0303 = HandleCrash.digit
-	         $031f = HandleCrash.loop
-	         $034d = HandleCrash.unlocked
-	         $0355 = HandleCrash.noDumpSwitch
-	         $0364 = HandleCrash.noInc
-	         $0372 = HandleCrash.noDown
-	         $0380 = HandleCrash.noUp
-	         $03a4 = HandleCrash.wait
-	         $03bb = HandleCrash.waitAfter
-	         $03ca = HandleCrash.poll
-	         $03d4 = HandleCrash.printHexBC
-	         $03d8 = HandleCrash.printHexA
-	         $03d9 = HandleCrash.printHexB
-	         $03e4 = HandleCrash.printDump
-	         $03f4 = HandleCrash.writeDumpLine
-	         $03fb = HandleCrash.writeDumpWord
-	         $0412 = HandleCrash.font
-	         $05a4 = HandleCrash.header
-	         $05f7 = HandleCrash.viewStr
-	         $05fe = HandleCrash.spStr
-	         $0602 = HandleCrash.hwRegsStrs
-	SECTION: $0621-$069e ($007e bytes) ["SGB routines"]
-	         $0621 = SendPackets
-	         $0626 = SendPackets.sendPacket
-	         $0630 = FreezeSGBScreen
-	         $0633 = SendPacketNoDelay
-	         $063c = SendPacketNoDelay.sendByte
-	         $0640 = SendPacketNoDelay.sendBit
-	         $0647 = SendPacketNoDelay.bitSet
-	         $065c = SGBDelay
-	         $065f = SGBDelay.loop
-	         $0668 = FreezeScreenPacket
-	         $0678 = FillScreenWithSGBMap
-	         $0681 = FillScreenWithSGBMap.writeRow
-	         $0683 = FillScreenWithSGBMap.writeTile
-	         $0694 = FillScreenWithSGBMap.done
-	         $0698 = SetupSGBLCDC
-	SECTION: $069f-$06bf ($0021 bytes) ["rand"]
-	         $069f = rand
-	SECTION: $06c0-$06da ($001b bytes) ["Build date"]
-	         $06c6 = BuildDate
-	SECTION: $06db-$06ed ($0013 bytes) ["LCDMemset"]
-	         $06db = LCDMemset
-	         $06dc = LCDMemsetFromD
-	         $06df = !1
-	         $06df = LCDMemsetFromD.loop
-	SECTION: $06ee-$06fa ($000d bytes) ["Memcpy"]
-	         $06ee = Memcpy
-	         $06f1 = Memcpy.loop
-	SECTION: $06fb-$0707 ($000d bytes) ["LCDMemcpySmall"]
-	         $06fb = !2
-	         $06fb = LCDMemcpySmall
-	SECTION: $0708-$0714 ($000d bytes) ["LCDMemsetSmallFromB"]
-	         $0708 = LCDMemsetSmall
-	         $0709 = LCDMemsetSmallFromB
-	         $0709 = !0
-	EMPTY: $0715-$3fff ($38eb bytes)
-	TOTAL EMPTY: $3902 bytes
-
-ROMX bank #1:
-	SECTION: $4000-$4007 ($0008 bytes) ["OAM DMA routine"]
-	         $4000 = OAMDMA
-	         $4004 = OAMDMA.wait
-	         $4008 = OAMDMA.end
-	SECTION: $4008-$400a ($0003 bytes) ["Intro"]
-	         $4008 = Intro
-	EMPTY: $400b-$7fff ($3ff5 bytes)
-	TOTAL EMPTY: $3ff5 bytes
-
-VRAM bank #0:
-	EMPTY: $8000-$9bff ($1c00 bytes)
-	SECTION: $9c00-$9fff ($0400 bytes) ["9C00 tilemap"]
-	         $9d96 = vCrashAF
-	         $9d98 = vCrashBC
-	         $9d9a = vCrashDE
-	         $9d9c = vCrashHL
-	         $9d9e = vCrashSP
-	         $9db4 = vHeldKeys
-	         $9db5 = vUnlockCounter
-	         $9db6 = vWhichDump
-	         $9db7 = vDumpHL
-	         $9db9 = vDumpSP
-	         $9dbb = vCrashVBK
-	         $9dcb = vCrashDumpScreen
-	         $9deb = vCrashDumpScreen.row1
-	         $9e0b = vCrashDumpScreen.row2
-	         $9e2b = vCrashDumpScreen.row3
-	         $9e4b = vCrashDumpScreen.row4
-	         $9e6b = vCrashDumpScreen.row5
-	         $9e8b = vCrashDumpScreen.row6
-	         $9eab = vCrashDumpScreen.row7
-	         $9ecb = vCrashDumpScreen.row8
-	         $9eeb = vCrashDumpScreen.row9
-	         $9f0b = vCrashDumpScreen.row10
-	         $9f2b = vCrashDumpScreen.row11
-	         $9f4b = vCrashDumpScreen.row12
-	         $9f6b = vCrashDumpScreen.row13
-	         $9f8b = vCrashDumpScreen.row14
-	         $9fab = vCrashDumpScreen.row15
-	         $9fcb = vCrashDumpScreen.row16
-	         $9feb = vCrashDumpScreen.row17
-	TOTAL EMPTY: $1c00 bytes
+	SECTION: $0000-$0020 ($0021 bytes) ["VBlankFunctions"]
+	         $0000 = WaitForOneVBlank
+	         $0005 = WaitForVBlankFunction_Loop
+	         $0005 = WaitForVBlankFunction
+	         $0016 = WaitForVBlankFunction_Loop2
+	SECTION: $0021-$003b ($001b bytes) ["Build date"]
+	         $0027 = BuildDate
+	SECTION: $003c-$0048 ($000d bytes) ["Memcpy"]
+	         $003c = Memcpy
+	         $003f = Memcpy.loop
+	SECTION: $0049-$0053 ($000b bytes) ["Miscellaneous Funs"]
+	         $0049 = TurnOffLCD
+	         $004e = TurnOnLCD
+	SECTION: $0054-$005b ($0008 bytes) ["Entry point"]
+	         $0054 = EntryPoint
+	EMPTY: $005c-$00ff ($00a4 bytes)
+	SECTION: $0100-$014f ($0050 bytes) ["Header"]
+	EMPTY: $0150-$3fff ($3eb0 bytes)
+	TOTAL EMPTY: $3f54 bytes
 
 WRAM0 bank #0:
-	SECTION: $c000-$c09f ($00a0 bytes) ["Shadow OAM"]
-	         $c000 = wShadowOAM
-	SECTION: $c0a0-$c0df ($0040 bytes) ["Stack"]
-	         $c0a0 = wStack
-	         $c0e0 = wStackBottom
-	SECTION: $c0e0-$c0e3 ($0004 bytes) ["rand_ram"]
-	         $c0e0 = randstate
-	SECTION: $c0e4-$c0e6 ($0003 bytes) ["Crash handler scratch"]
-	         $c0e4 = wCrashA
-	         $c0e5 = wCrashIE
-	         $c0e6 = wCrashLCDC
-	EMPTY: $c0e7-$cfff ($0f19 bytes)
-	TOTAL EMPTY: $0f19 bytes
-
-HRAM bank #0:
-	SECTION: $ff80-$ff8a ($000b bytes) ["VBlank HRAM"]
-	         $ff80 = hVBlankFlag
-	         $ff81 = hOAMHigh
-	         $ff82 = hLCDC
-	         $ff83 = hSCY
-	         $ff84 = hSCX
-	         $ff85 = hBGP
-	         $ff86 = hOBP0
-	         $ff87 = hOBP1
-	         $ff88 = hHeldKeys
-	         $ff89 = hPressedKeys
-	         $ff8a = hCanSoftReset
-	SECTION: $ff8b-$ff92 ($0008 bytes) ["OAM DMA"]
-	         $ff8b = hOAMDMA
-	SECTION: $ff93-$ff94 ($0002 bytes) ["Global vars"]
-	         $ff93 = hConsoleType
-	         $ff94 = hCurROMBank
-	SECTION: $ff95-$ff95 ($0001 byte) ["pb16 temp byte"]
-	         $ff95 = pb16_byte0
-	EMPTY: $ff96-$fffe ($0069 bytes)
-	TOTAL EMPTY: $0069 bytes
+	SECTION: $c000-$c000 ($0001 byte) ["VBlankVariables"]
+	         $c000 = wVBlankCount
+	EMPTY: $c001-$cfff ($0fff bytes)
+	TOTAL EMPTY: $0fff bytes

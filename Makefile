@@ -1,15 +1,18 @@
 
 .SUFFIXES: # Suppress a lot of useless default rules, which also provides a nice speedup.
 
-ifeq (${MAKE_VERSION},3.81)
-# Parallel builds are broken with macOS' bundled version of Make.
-# Please consider installing Make from Homebrew (`brew install make`, **make sure to read the caveats**).
-# Please see https://github.com/ISSOtm/gb-starter-kit/issues/1#issuecomment-1793775226 for details.
-.NOTPARALLEL: # Delete this line if you want to have parallel builds regardless!
-endif
-
 # Recursive `wildcard` function.
 rwildcard = $(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+
+# Program constants.
+# POSIX OSes (the sane default).
+RM_RF := rm -rf
+MKDIR_P := mkdir -p
+ifeq ($(strip $(shell which rm)),)
+	# Windows *really* tries its hardest to be Special™!
+	RM_RF := -rmdir /s /q
+	MKDIR_P := -mkdir
+endif
 
 RGBDS   ?= # Shortcut if you want to use a local copy of RGBDS.
 RGBASM  := ${RGBDS}rgbasm
@@ -39,7 +42,7 @@ all: ${ROM}
 
 # `clean`: Clean temp and bin files
 clean:
-	rm -rf bin obj assets
+	${RM_RF} bin obj assets
 .PHONY: clean
 
 # `rebuild`: Build everything from scratch
@@ -49,45 +52,21 @@ rebuild:
 	${MAKE} all
 .PHONY: rebuild
 
-
 # By default, asset recipes convert files in `assets/` into other files in `assets/`.
 # This line causes assets not found in `assets/` to be also looked for in `src/assets/`.
 # "Source" assets can thus be safely stored there without `make clean` removing them!
 VPATH := src
 
-assets/%.2bpp: assets/%.png
-	@mkdir -p "${@D}"
-	${RGBGFX} -o $@ $<
-
-assets/%.1bpp: assets/%.png
-	@mkdir -p "${@D}"
-	${RGBGFX} -d 1 -o $@ $<
-
-# Define how to compress files using the PackBits16 codec
-# Compressor script requires Python 3
-assets/%.pb16: assets/% src/tools/pb16.py
-	@mkdir -p "${@D}"
-	src/tools/pb16.py $< assets/$*.pb16
-
-assets/%.pb16.size: assets/%
-	@mkdir -p "${@D}"
-	printf 'def NB_PB16_BLOCKS equ ((%u) + 15) / 16\n' "$$(wc -c <$<)" > assets/$*.pb16.size
-
-# Define how to compress files using the PackBits8 codec
-# Compressor script requires Python 3
-assets/%.pb8: assets/% src/tools/pb8.py
-	@mkdir -p "${@D}"
-	src/tools/pb8.py $< assets/$*.pb8
-
-assets/%.pb8.size: assets/%
-	@mkdir -p "${@D}"
-	printf 'def NB_PB8_BLOCKS equ ((%u) + 7) / 8\n' "$$(wc -c <$<)" > assets/$*.pb8.size
-
+# Define how to compress files using the PackBits16 codec.
+# (The compressor script requires Python 3.)
+assets/%.pb16: src/tools/pb16.py assets/%
+	@${MKDIR_P} "${@D}"
+	$^ $@
 
 # How to build a ROM.
 # Notice that the build date is always refreshed.
 bin/%.${ROMEXT}: $(patsubst src/%.asm,obj/%.o,${SRCS})
-	@mkdir -p "${@D}"
+	@${MKDIR_P} "${@D}"
 	${RGBASM} ${ASFLAGS} -o obj/build_date.o src/assets/build_date.asm
 	${RGBLINK} ${LDFLAGS} -m bin/$*.map -n bin/$*.sym -o $@ $^ \
 	&& ${RGBFIX} -v ${FIXFLAGS} $@
@@ -97,7 +76,7 @@ bin/%.${ROMEXT}: $(patsubst src/%.asm,obj/%.o,${SRCS})
 # Caution: some of these flags were added in RGBDS 0.4.0, using an earlier version WILL NOT WORK
 # (and produce weird errors).
 obj/%.mk: src/%.asm
-	@mkdir -p "${@D}"
+	@${MKDIR_P} "${@D}"
 	${RGBASM} ${ASFLAGS} -M $@ -MG -MP -MQ ${@:.mk=.o} -MQ $@ -o ${@:.mk=.o} $<
 # DO NOT merge this with the rule above, otherwise Make will assume that the `.o` file is generated,
 # even when it isn't!
@@ -108,12 +87,3 @@ obj/%.o: obj/%.mk
 ifeq ($(filter clean,${MAKECMDGOALS}),)
 include $(patsubst src/%.asm,obj/%.mk,${SRCS})
 endif
-
-# By default, cloning the repo does not init submodules; if that happens, warn the user.
-# Note that the real paths aren't used!
-# Since RGBASM fails to find the files, it outputs the raw paths, not the actual ones.
-hardware.inc/hardware.inc rgbds-structs/structs.asm:
-	@echo '$@ is not present; have you initialized submodules?'
-	@echo 'Run `git submodule update --init`, then `make clean`, then `make` again.'
-	@echo 'Tip: to avoid this, use `git clone --recursive` next time!'
-	@exit 1
