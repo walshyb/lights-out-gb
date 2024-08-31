@@ -13,7 +13,7 @@ ROM0 bank #0:
 	SECTION: $003c-$0048 ($000d bytes) ["Memcpy"]
 	         $003c = Memcpy
 	         $003f = Memcpy.loop
-	SECTION: $0049-$0053 ($000b bytes) ["Miscellaneous Funs"]
+	SECTION: $0049-$0053 ($000b bytes) ["Miscellaneous Funcs"]
 	         $0049 = TurnOffLCD
 	         $004e = TurnOnLCD
 	SECTION: $0054-$005b ($0008 bytes) ["Entry point"]
