@@ -9,7 +9,6 @@ SECTION "GameVariables", WRAM0
   wGameState::db
 
 SECTION "Header", ROM0[$100]
-
 	; This is your ROM's entry point
 	; You have 4 bytes of code to do... something
 	di
@@ -45,18 +44,18 @@ EntryPoint:
 
   ; disable interrupts
   ;call DisableInterrupts
-  ld a, 0
-	ldh [rSTAT], a
-	di
+  ;ld a, 0
+	;ldh [rSTAT], a
+	;di
 
-  call InitTitleScreen
+  ;call InitTitleScreen
 
   ;call LoadTitleScreen
 
-  call WaitForOneVBlank
-  ;call LoadLevel1
+  
+  ;call WaitForOneVBlank
+  call LoadLevel1
 
-  ;call TurnOnLCD
 
   ; Clear OAM
   ; Initialize OAM data
