@@ -2,29 +2,22 @@ INCLUDE "hardware.inc/hardware.inc"
 
 SECTION "LEVEL 1", ROM0
 
-
-BlackTileData:  INCBIN "assets/blacktile.2bpp"
-BlackTileDataEnd:
-
-BlackTileMap:  INCBIN "assets/blacktile.tilemap"
-BlackTileMapEnd:
-
-
 LoadLevel1::
     ; Load black tile into VRAM
-    ld de, BlackTileData
+    ld de, BlackTile
     ld hl, $9000
-    ld bc, BlackTileDataEnd - BlackTileData
+    ld bc, 16
     call MemCpy
 
     call TurnOnLCD
 
     ; Set up the background tilemap
-    ; Just trying to get a single black tile to appear, no dice
-    ; This makes the whole screen black
-    ld de, BlackTileMap 
-    ld hl, $9800
-    ld bc, BlackTileMapEnd - BlackTileMap
+    ; Trying to make $9800 - $9A33 black tiles (read from $9000)
+    ; This makes the debugger screen mostly black, with some white boxes
+    ; And eventually the emulator screen goes fully black
+    ld de, $9000
+    ld hl, $9880
+    ld bc, $9A33 - $9800
     call MemCpyNoDeInc
 
     ret
