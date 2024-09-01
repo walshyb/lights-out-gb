@@ -2,6 +2,11 @@ INCLUDE "hardware.inc/hardware.inc"
 
 SECTION "Title Screen", ROM0
 
+; My learnings:
+; If you're going to have an image take up the whole of the GB screen (effectively),
+; it's better to make it 256x256 and rgbgfx that. That way screen-wrapping is
+; already handled. Back when this image was GB resolution, it kept on rendering it
+; offscreen into no man's land and wrapping after the 32nd column.
 titleScreenTileData:  INCBIN "assets/title-spritesheet.2bpp"
 titleScreenTileDataEnd:
 
