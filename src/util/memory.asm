@@ -23,16 +23,3 @@ MemCpy::
 	dec b
 	jr nz, .loop
 	ret
-
-
-MemCpy520Offset::
-
-  ld a, [de]
-  add a, 52
-  ld [hli], a
-  inc de
-  dec bc
-  ld a, b
-  or a, c
-  jp nz, MemCpy520Offset 
-  ret

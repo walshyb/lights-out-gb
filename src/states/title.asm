@@ -2,11 +2,11 @@ INCLUDE "hardware.inc/hardware.inc"
 
 SECTION "Title Screen", ROM0
 
-titleScreenTileData:  INCBIN "assets/titlescreen-text.2bpp"
+titleScreenTileData:  INCBIN "assets/title-spritesheet.2bpp"
 titleScreenTileDataEnd:
 
-titleScreenTileMap: INCBIN "assets/titlescreen-text.tilemap"
-titleScreenTileMapEnd:
+Tilemap:  INCBIN "assets/title-spritesheet.tilemap"
+TilemapEnd:
 
 InitTitleScreen::
   call DrawTitleScreen
@@ -23,12 +23,12 @@ DrawTitleScreen::
   ld bc, titleScreenTileDataEnd - titleScreenTileData
   call MemCpy
 
-  ld de, titleScreenTileMap
+  ld de, Tilemap
   ld hl, $9800
-  ld bc, titleScreenTileMapEnd - titleScreenTileMap
+  ld bc, TilemapEnd - Tilemap
   call MemCpy
 
-
-
-
   ret
+
+
+

@@ -1,4 +1,3 @@
-
 INCLUDE "hardware.inc/hardware.inc"
 	rev_Check_hardware_inc 4.0
 
@@ -53,6 +52,11 @@ EntryPoint:
   call InitTitleScreen
 
   ;call LoadTitleScreen
+
+  call WaitForOneVBlank
+  ;call LoadLevel1
+
+  ;call TurnOnLCD
 
   ; Clear OAM
   ; Initialize OAM data
