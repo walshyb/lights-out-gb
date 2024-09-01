@@ -31,16 +31,15 @@ EntryPoint:
   call InitSprObjLibWrapper
 
   call ClearBackground
-  
+
   ; turn off LCD
   ld a, 0
   ld [rLCDC], a
-
-  ld a, 0
   ld [rSCX], a
   ld [rSCY], a
   ld [rWX], a
   ld [rWY], a
+  
 
   ; disable interrupts
   ;call DisableInterrupts
@@ -55,6 +54,9 @@ EntryPoint:
   
   ;call WaitForOneVBlank
   call LoadLevel1
+  call TurnOnLCD
+
+  ;call WaitForOneVBlank
 
 
   ; Clear OAM
