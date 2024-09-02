@@ -13,6 +13,8 @@ LoadLevel1::
 
     ret
 
+; Loads 1 in addresses $9880 - $9A33. Effectively, our background "tilemap"
+; This is because our black tile is in the first index ($9010) of VRAM
 LoadBackground::
   ld hl, $9880  ;Start point
   ld bc, $9A33 - $9880 + 2
