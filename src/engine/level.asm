@@ -29,9 +29,9 @@ InitLevelEngine::
   ret
 
 DefaultGrid:
-  dw `00000
-  dw `00000
-  dw `00000
-  dw `00000
-  dw `00000
+  dw `00000 ; 2 bytes: 00 00
+  dw `00000 ; 2 bytes: 00 00
+  dw `00000 ; 2 bytes: 00 00
+  dw `00000 ; 2 bytes: 00 00
+  dw `00000 ; 2 bytes: 00 00
 DefaultGridEnd:
