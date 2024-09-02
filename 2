@@ -14,17 +14,16 @@ LoadLevel1::
     ret
 
 LoadBackground::
-  ld hl, $9880  ;Start point
-  ld bc, $9A33 - $9880 + 2
-
+ld hl, $9880  ;Start point
+ld bc, $9A33 - $9880 + 2
 .loop
   ld a, 1
-  ld [hli], a
-  dec bc
-  ld a, b
-  or c
-  jr nz, .loop
-  ret
+	ld [hli], a
+	dec bc
+	ld a, b
+	or c
+	jr nz, .loop
+	ret
 
 
 ; Define a black tile (8x8 pixels), all bits set to FF

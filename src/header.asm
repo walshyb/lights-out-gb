@@ -30,7 +30,10 @@ EntryPoint:
   ; Init sprite object library
   call InitSprObjLibWrapper
 
+  call WaitForOneVBlank
+
   call ClearBackground
+  call WaitForOneVBlank
 
   ; turn off LCD
   ld a, 0
@@ -55,6 +58,8 @@ EntryPoint:
   ;call WaitForOneVBlank
   call LoadLevel1
   call TurnOnLCD
+
+
 
   ;call WaitForOneVBlank
 
