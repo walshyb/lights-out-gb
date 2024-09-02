@@ -2,12 +2,6 @@ INCLUDE "hardware.inc/hardware.inc"
 
 SECTION "Blocks", ROM0
 
-; 0, 1, 32, 33 = 2
-; 2, 34 = 4
-; 64, 65 = 6
-; 66 = 5
-
-
 ; Render level grid
 ; All blocks "off" by default
 RenderBlocks::
@@ -21,6 +15,9 @@ RenderBlocks::
 
   ; next row's start point is 52 (offset from last block's
   ; position) + 32 to go down 1 line
+  ; TODO:
+  ; Figure out how to fetch original hl value so we don't have to
+  ; do this ugly math :) 
   ld de, 52 + 32 
   add hl, de
   jr .renderBlock ; jump to load first block in row
