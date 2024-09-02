@@ -30,6 +30,8 @@ EntryPoint:
   ; Init sprite object library
   call InitSprObjLibWrapper
 
+
+
   ; Clear background
   call WaitForOneVBlank
   call ClearBackground
@@ -42,6 +44,11 @@ EntryPoint:
   ld [rSCY], a
   ld [rWX], a
   ld [rWY], a
+
+  ; Load a grayscale palette
+  ld a, $E4
+  ld hl, $FF47
+  ld [hl], a
   
   ; disable interrupts
   ;call DisableInterrupts
@@ -54,7 +61,8 @@ EntryPoint:
 
   
   ;call WaitForOneVBlank
-  call InitGameTiles
+  call InitLevelEngine
+  call LoadLevel1
   call TurnOnLCD
 
 

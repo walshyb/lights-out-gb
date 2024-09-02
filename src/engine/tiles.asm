@@ -39,8 +39,6 @@ InitGameTiles::
     ld bc, 16
     call MemCpy
 
-    call LoadBackground
-
     ret
 
 ; Loads 1 in addresses $9880 - $9A33. Effectively, our background "tilemap"
@@ -57,6 +55,46 @@ LoadBackground::
   or c
   jr nz, .loop
   ret
+
+
+; TODO: get start point
+; Render 1 block
+RenderBlock::
+  ld a, $02
+
+  ld hl, $98C2
+  ld [hl], a
+
+  ld hl, $98C2 + 1
+  ld [hl], a
+
+  ld hl, $98C2 + 32
+  ld [hl], a
+
+  ld hl, $98C2 + 33
+  ld [hl], a
+
+  ld a, $04
+  ld hl, $98C2 + 2
+  ld [hl], a
+
+  ld hl, $98C2 + 34
+  ld [hl], a
+
+  ld a, $06
+  ld hl, $9902
+  ld [hl], a
+
+  ld hl, $9902 + 1
+  ld [hl], a
+
+  ld a, $05
+  ld hl, $9902 + 2
+  ld [hl], a
+
+
+  ret
+
 
 
 ; Define a black tile (8x8 pixels), all bits set to FF
@@ -84,25 +122,25 @@ OffTile:
 OffTileEnd:
 
 OffTileRight:
-    dw `11110000
-    dw `11110000
-    dw `11110000
-    dw `11110000
-    dw `11110000
-    dw `11110000
-    dw `11110000
-    dw `11110000
+  dw `11113333
+  dw `11113333
+  dw `11113333
+  dw `11113333
+  dw `11113333
+  dw `11113333
+  dw `11113333
+  dw `11113333
 OffTileRightEnd:
 
 OffTileBottomRight:
-    dw `11110000
-    dw `11110000
-    dw `11110000
-    dw `11110000
-    dw `00000000
-    dw `00000000
-    dw `00000000
-    dw `00000000
+  dw `11113333
+  dw `11113333
+  dw `11113333
+  dw `11113333
+  dw `33333333
+  dw `33333333
+  dw `33333333
+  dw `33333333
 OffTileBottomRightEnd:
 
 OffTileBottom:
@@ -110,10 +148,10 @@ OffTileBottom:
   dw `11111111
   dw `11111111
   dw `11111111
-  dw `00000000
-  dw `00000000
-  dw `00000000
-  dw `00000000
+  dw `33333333
+  dw `33333333
+  dw `33333333
+  dw `33333333
 OffTileBottomEnd:
 
 OnTile:
