@@ -44,8 +44,8 @@ InitGameTiles::
 ; Loads 1 in addresses $9880 - $9A33. Effectively, our background "tilemap"
 ; This is because our black tile is in the first index ($9010) of VRAM
 LoadBackground::
-  ld hl, $9880  ;Start point
-  ld bc, $9A33 - $9880 + 2
+  ld hl, $9840  ;Start point
+  ld bc, $9A33 - $9840 + 2
 
 .loop
   ld a, 1
@@ -55,47 +55,6 @@ LoadBackground::
   or c
   jr nz, .loop
   ret
-
-
-; TODO: get start point
-; Render 1 block
-RenderBlock::
-  ld a, $02
-
-  ld hl, $98C2
-  ld [hl], a
-
-  ld hl, $98C2 + 1
-  ld [hl], a
-
-  ld hl, $98C2 + 32
-  ld [hl], a
-
-  ld hl, $98C2 + 33
-  ld [hl], a
-
-  ld a, $04
-  ld hl, $98C2 + 2
-  ld [hl], a
-
-  ld hl, $98C2 + 34
-  ld [hl], a
-
-  ld a, $06
-  ld hl, $9902
-  ld [hl], a
-
-  ld hl, $9902 + 1
-  ld [hl], a
-
-  ld a, $05
-  ld hl, $9902 + 2
-  ld [hl], a
-
-
-  ret
-
-
 
 ; Define a black tile (8x8 pixels), all bits set to FF
 BlackTile:

@@ -10,7 +10,7 @@ InitLevelEngine::
   xor a
   ld [rLCDC], a
 
-  call RenderBlock
+  call RenderBlocks
   
   call TurnOnLCD
   ret
