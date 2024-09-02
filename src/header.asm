@@ -30,8 +30,8 @@ EntryPoint:
   ; Init sprite object library
   call InitSprObjLibWrapper
 
+  ; Clear background
   call WaitForOneVBlank
-
   call ClearBackground
   call WaitForOneVBlank
 
@@ -43,7 +43,6 @@ EntryPoint:
   ld [rWX], a
   ld [rWY], a
   
-
   ; disable interrupts
   ;call DisableInterrupts
   ;ld a, 0
@@ -51,17 +50,13 @@ EntryPoint:
 	;di
 
   ;call InitTitleScreen
-
   ;call LoadTitleScreen
 
   
   ;call WaitForOneVBlank
-  call LoadLevel1
+  call InitGameTiles
   call TurnOnLCD
 
-
-
-  ;call WaitForOneVBlank
 
 
   ; Clear OAM
