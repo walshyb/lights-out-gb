@@ -2,9 +2,13 @@ INCLUDE "hardware.inc/hardware.inc"
 
 SECTION "Level 1", ROM0
 
-LoadLevel1::
-  ret
+InitLevel1::
+  ld de, .grid 
+  ld hl, levelGrid
+  ld bc, .gridEnd - .grid
+  call MemCpy
 
+  ret
 
 
 .grid:
@@ -14,8 +18,5 @@ LoadLevel1::
   dw `00100
   dw `00000
 .gridEnd:
-
-
-
 
 
