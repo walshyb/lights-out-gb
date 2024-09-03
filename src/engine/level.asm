@@ -17,10 +17,11 @@ InitLevelEngine::
   ld [rLCDC], a
 
   ; Load default grid into variable
-  ld de, DefaultGrid
-  ld hl, levelGrid
-  ld bc, $05
-  call MemCpy
+  ; Not needed?
+  ;ld de, DefaultGrid
+  ;ld hl, levelGrid
+  ;ld bc, $05
+  ;call MemCpy
 
   ; Render default grid
   ; We actually don't have to lol

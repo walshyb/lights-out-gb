@@ -135,7 +135,7 @@ RenderBlocks::
 
 ; TODO: consolidate with renderOffBlock
 .renderOnBlock:
-  ; Tile 2 get's applied to hl + 0, hl + 1, hl + 32, hl + 33
+  ; Tile 3 get's applied to hl + 0, hl + 1, hl + 32, hl + 33
   ld a, $03
 
   ld [hl], a
@@ -152,11 +152,11 @@ RenderBlocks::
   ld [hl], a         
   pop hl                ; Restore HL from the stack
 
-  ; Tile 4 get's applied to hl + 2, hl + 34
+  ; Tile 7 get's applied to hl + 2, hl + 34
   push hl
   inc hl
   inc hl 
-  ld a, $00
+  ld a, $07
   ld [hl], a
 
   ld de, 32
@@ -164,22 +164,22 @@ RenderBlocks::
   ld [hl], a    
   pop hl
 
-  ; Tile 6 get's applied to hl + 64, hl + 65
+  ; Tile 9 get's applied to hl + 64, hl + 65
   push hl
   ld de, 64 
   add hl, de  
-  ld a, $06
+  ld a, $09
   ld [hl], a  
 
   inc hl 
   ld [hl], a
   pop hl
 
-  ; Tile 5 get's applied to hl + 66
+  ; Tile 8 get's applied to hl + 66
   push hl
   ld de, 66 
   add hl, de 
-  ld a, $05
+  ld a, $08
   ld [hl], a 
   pop hl
 

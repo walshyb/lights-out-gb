@@ -9,8 +9,10 @@ InitLevel1::
   ld bc, .gridEnd - .grid
   call MemCpy
 
+  ; Render the level
   call RenderBlocks
 
+  ; Turn on the screen
   call TurnOnLCD
 
   ret

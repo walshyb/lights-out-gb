@@ -1,6 +1,6 @@
 INCLUDE "hardware.inc/hardware.inc"
 
-SECTION "Game Engine", ROM0
+SECTION "Block Tiles", ROM0
 
 InitGameTiles::
     ; Load black tile into VRAM
@@ -9,33 +9,43 @@ InitGameTiles::
     ld bc, 16
     call MemCpy
 
-    ; Load black tile into VRAM
     ld de, OffTile
     ld hl, $9020
     ld bc, 16
     call MemCpy
 
-    ; Load black tile into VRAM
-    ld de, OnTile
-    ld hl, $9030
-    ld bc, 16
-    call MemCpy
-
-    ; Load black tile into VRAM
     ld de, OffTileRight
     ld hl, $9040
     ld bc, 16
     call MemCpy
 
-    ; Load black tile into VRAM
     ld de, OffTileBottomRight
     ld hl, $9050
     ld bc, 16
     call MemCpy
 
-    ; Load black tile into VRAM
     ld de, OffTileBottom
     ld hl, $9060
+    ld bc, 16
+    call MemCpy
+
+    ld de, OnTile
+    ld hl, $9030
+    ld bc, 16
+    call MemCpy
+
+    ld de, OnTileRight
+    ld hl, $9070
+    ld bc, 16
+    call MemCpy
+
+    ld de, OnTileBottomRight
+    ld hl, $9080
+    ld bc, 16
+    call MemCpy
+
+    ld de, OnTileBottom
+    ld hl, $9090
     ld bc, 16
     call MemCpy
 
@@ -124,3 +134,36 @@ OnTile:
     dw `22222222
 OnTileEnd:
 
+
+OnTileBottom:
+  dw `22222222
+  dw `22222222
+  dw `22222222
+  dw `22222222
+  dw `33333333
+  dw `33333333
+  dw `33333333
+  dw `33333333
+OnTileBottomEnd:
+
+OnTileRight:
+  dw `22223333
+  dw `22223333
+  dw `22223333
+  dw `22223333
+  dw `22223333
+  dw `22223333
+  dw `22223333
+  dw `22223333
+OnTileRightEnd:
+
+OnTileBottomRight:
+  dw `22223333
+  dw `22223333
+  dw `22223333
+  dw `22223333
+  dw `33333333
+  dw `33333333
+  dw `33333333
+  dw `33333333
+OnTileBottomRightEnd:
