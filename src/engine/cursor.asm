@@ -4,19 +4,19 @@ SECTION "Cursor Vars", WRAM0
 
 wCursorPositionX:: db
 wCursorPositionY:: db
+wCursorCurrentRow:: db
+wCursorCurrentCol:: db
 
 SECTION "Cursor", ROM0
 
 CursorData: INCBIN "assets/cursor.2bpp"
 CursorDataEnd:
 
-CursorMetasprite::
- .metasprite1   db 0, 0, 0, 0
- .metasprite2   db 0, 8, 2, 0
- .metasprite3   db 0, 18, 2, 0
- .metaspriteEnd db 128
-
 InitCursor::
+  ; Set current row and col to 0
+  xor a
+  ld [wCursorCurrentRow], a
+  ld [wCursorCurrentCol], a
 
   ; Set default position
   ld a, 16
@@ -24,18 +24,20 @@ InitCursor::
   ld a, 39
   ld [wCursorPositionY], a
 
-  ; Top Left
+  ; Load cursor sprite into VRAM
   ld de, CursorData
   ld hl, $8000
   ld bc, CursorDataEnd - CursorData
   call MemCpy
 
-  Ld a, 0 ; All white (assuming white is color index 0)
-ld [rOBP0], a
-  
+  ; Set palette to white
+  ; TODO: set light palette on OnBlocks and dark palette on OffBlocks
+  ld a, 0 ; All white (assuming white is color index 0)
+  ld [rOBP0], a
 
   ret
 
+; Render top left, top right, bottom left, bottom right cursor sprites
 DrawCursor::
     ld hl, _OAMRAM
 
@@ -54,7 +56,7 @@ DrawCursor::
     ld [hli], a ; write x
     ld a, 0     ; tile index
     ld [hli], a ; write tile index
-    ld a, %00100000 ; flip h and v
+    ld a, %00100000 ; flip v
     ld [hli], a ; write attributes
 
     ld a, [wCursorPositionY]
@@ -64,7 +66,7 @@ DrawCursor::
     ld [hli], a ; write x
     ld a, 0     ; tile index
     ld [hli], a ; write tile index
-    ld a, %01000000 ; flip h and v
+    ld a, %01000000 ; flip h
     ld [hli], a ; write attributes
 
     ld a, [wCursorPositionY]
