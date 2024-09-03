@@ -28,6 +28,7 @@ RenderBlocks::
   ; Get address of levelGrid
   ld hl, levelGrid
   ; add b*2 to get address of bytes for current row
+  ld e, b ; save b into e
   ld a, b
   add a, a
   ; load current row&column's address to HL
@@ -50,8 +51,9 @@ RenderBlocks::
   ; if c is 0, render black block
   ; else render white block
   pop hl
-  jr c, .renderOffBlock 
-  jr nc, .renderOffBlock 
+  ld b, e
+  jr c, .renderOffBlock  ; If carry is a one, render an On block
+  jr nc, .renderOffBlock ; If carry is 0, render an Off BLock
   
 
 
