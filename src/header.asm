@@ -61,9 +61,9 @@ EntryPoint:
 
   
   ;call WaitForOneVBlank
-  call InitLevelEngine
-  call InitLevel1
-  call TurnOnLCD
+  ;call InitLevelEngine
+  ;call InitLevel1
+  ;call TurnOnLCD
 
 
 

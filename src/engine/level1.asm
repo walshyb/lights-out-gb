@@ -3,6 +3,7 @@ INCLUDE "hardware.inc/hardware.inc"
 SECTION "Level 1", ROM0
 
 InitLevel1::
+  ; Load current grid into levelGrid variable in memory
   ld de, .grid 
   ld hl, levelGrid
   ld bc, .gridEnd - .grid
