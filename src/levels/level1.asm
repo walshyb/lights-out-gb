@@ -12,9 +12,6 @@ InitLevel1::
   ; Render the level
   call RenderBlocks
 
-  ; Turn on the screen
-  call TurnOnLCD
-
   ret
 
 .grid:

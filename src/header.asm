@@ -61,7 +61,10 @@ NextGameState::
 
   cp 1
   call InitLevelEngine
+  call InitCursor
   call z, InitLevel1
+  call DrawCursor
+  call TurnOnLCD
   ;call LoadTitleScreen
 
   ;call WaitForOneVBlank

@@ -3,7 +3,7 @@ INCLUDE "hardware.inc/hardware.inc"
 SECTION "Screen Funcs", ROM0
 
 TurnOnLCD::
-  ld a, LCDCF_ON  | LCDCF_BGON|LCDCF_OBJON | LCDCF_OBJ16 | LCDCF_WINON | LCDCF_WIN9800
+  ld a, LCDCF_ON  | LCDCF_BGON|LCDCF_OBJON | LCDCF_WINON | LCDCF_WIN9800
   ld [rLCDC], a
   ret
 

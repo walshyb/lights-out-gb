@@ -10,6 +10,7 @@ SECTION "Level Engine", ROM0
 InitLevelEngine::
   ; Load background
   call InitGameTiles
+  call InitCursor
   call LoadBackground
 
   ; Load default grid into variable
