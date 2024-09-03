@@ -9,15 +9,18 @@ InitLevel1::
   ld bc, .gridEnd - .grid
   call MemCpy
 
+  call RenderBlocks
+
+  call TurnOnLCD
+
   ret
 
-
 .grid:
-  dw `00000 ; 00 00
-  dw `00100 ; 04 00
-  dw `01110 ; 0E 00
-  dw `00100 ; 04 00
-  dw `00000 ; 00 00
+  db %00000 ; 00
+  db %00100 ; 04 
+  db %01110 ; 0E
+  db %00100 ; 04
+  db %00000 ; 00
 .gridEnd:
 
 

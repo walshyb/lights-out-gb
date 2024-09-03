@@ -23,9 +23,11 @@ InitLevelEngine::
   call MemCpy
 
   ; Render default grid
-  call RenderBlocks
+  ; We actually don't have to lol
+  ; It's all 0s if we really wanted
+  ;call RenderBlocks
   
-  call TurnOnLCD
+  ;call TurnOnLCD
   ret
 
 DefaultGrid:

@@ -62,10 +62,8 @@ EntryPoint:
   
   ;call WaitForOneVBlank
   call InitLevelEngine
-  ;call InitLevel1
+  call InitLevel1
   call TurnOnLCD
-
-
 
   ; Clear OAM
   ; Initialize OAM data
