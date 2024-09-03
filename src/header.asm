@@ -27,43 +27,46 @@ SECTION "Entry point", ROM0
 EntryPoint:
   call WaitForOneVBlank
 
-  ; Init sprite object library
-  call InitSprObjLibWrapper
-
-
-
-  ; Clear background
-  call WaitForOneVBlank
-  call ClearBackground
-  call WaitForOneVBlank
-
-  ; turn off LCD
-  ld a, 0
+  xor a
   ld [rLCDC], a
-  ld [rSCX], a
-  ld [rSCY], a
-  ld [rWX], a
-  ld [rWY], a
 
   ; Load a grayscale palette
   ld a, $E4
   ld hl, $FF47
   ld [hl], a
-  
-  ; disable interrupts
-  ;call DisableInterrupts
-  ;ld a, 0
-	;ldh [rSTAT], a
-	;di
 
-  ;call InitTitleScreen
+  ; Init sprite object library
+  call InitSprObjLibWrapper
+
+  call TurnOnLCD
+
+  xor a
+  ld [wGameState], a
+
+
+NextGameState::
+  ; Clear background
+  call WaitForOneVBlank
+  call ClearBackground
+
+  xor a
+  ld [rLCDC], a
+
+  call DisableInterrupts
+
+  ld a, [wGameState]
+
+  cp 0
+  call z, InitTitleScreen
+
+  cp 1
+  call InitLevelEngine
+  call z, InitLevel1
   ;call LoadTitleScreen
 
-  
   ;call WaitForOneVBlank
-  call InitLevelEngine
-  call InitLevel1
-  call TurnOnLCD
+  ;call InitLevelEngine
+  ;call InitLevel1
 
   ; Clear OAM
   ; Initialize OAM data

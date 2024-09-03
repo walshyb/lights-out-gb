@@ -12,10 +12,6 @@ InitLevelEngine::
   call InitGameTiles
   call LoadBackground
 
-  ; Turn off screen
-  xor a
-  ld [rLCDC], a
-
   ; Load default grid into variable
   ; Not needed?
   ;ld de, DefaultGrid

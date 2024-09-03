@@ -19,8 +19,9 @@ InitTitleScreen::
   ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON | LCDCF_OBJ16
   ld [rLCDC], a
 
-  ret
+  jr UpdateTitleScreenState
 
+  ret
 
 DrawTitleScreen::
   ld de, titleScreenTileData
@@ -36,4 +37,17 @@ DrawTitleScreen::
   ret
 
 
+UpdateTitleScreenState::
+  ; Wait for A press
+  ; TODO: allow start press
 
+  ; Save the passed value into the variable: mWaitKey
+  ; The WaitForKeyFunction always checks against this vriable
+  ld a, PADF_A
+  ld [mWaitKey], a
+
+  call WaitForKeyFunction
+
+  ld a, 1
+  ld [wGameState],a
+  jp NextGameState
