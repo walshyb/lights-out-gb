@@ -196,6 +196,12 @@ HandleAPress::
   ld [hli], a ; update level grid row (+ inc levelgrid row)
   inc de  ; inc .grid row
 
+  ; Reset 5 bytes of grid mask to 0
+  ld de, DefaultGrid
+  ld hl, wGridMask
+  ld bc, DefaultGridEnd - DefaultGrid
+  call MemCpy
+
   call WaitForOneVBlank
   ld a, 0
   ld [rLCDC], a
