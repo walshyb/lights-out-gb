@@ -103,6 +103,12 @@ HandleAPress::
   ;   shift grid[index] right c-1 times
   ld a, [wCursorCurrentCol] ; load col index into c
   ld c, a
+
+  ; If column 1 is, no need to shift mask left or right.
+  ; Skip to xor'ing the mask and the level grids
+  cp a, 1
+  jr z, .shiftGridMaskEnd
+
   ld hl, wGridMask
   ld d, 0 ; grid row index
 .shiftGridMask:
@@ -114,13 +120,14 @@ HandleAPress::
   ld a, [hl] ; load grid row value into a
   jr nz, .shiftRowRightETimes
 .shiftRowLeft:
-  ; if col == 0, row left 1 bit. we do this for all rows.
+  ; if col == 0, shift left 1 bit. we do this for all rows.
   ; we actually only need to shift b, b-1, and b+1 rows left,
   ; but it's easier to just do all of them.
   sla a ; shift left arithmetic our current row's data
   ld [hl], a ; load value back into the mask grid's row
   jr .shiftGridLoopEnd ; next iteration
 .shiftRowRightETimes:
+  ; if col > 1, shift value in a right c -1 times
   srl a
   dec e
   jr nz, .shiftRowRightETimes
