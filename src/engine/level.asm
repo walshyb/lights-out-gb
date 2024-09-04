@@ -20,12 +20,37 @@ StartLevel::
 
   .gameLoop:
     call CheckIfWon
+    jr z, HandleWin ; If z flag from CheckIfWon is zero
     call HandleKeyPress
     jr .gameLoop
 
   ret
 
 CheckIfWon::
+  ld hl, levelGrid
+  ld a, [hli] ; 0
+  cp a, 0
+  ret nz
+
+  ld a, [hli] ; 1
+  cp a, 0
+  ret nz
+
+  ld a, [hli] ; 2
+  cp a, 0
+  ret nz
+
+  ld a, [hli] ; 3
+  cp a, 0
+  ret nz
+
+  ld a, [hl] ; 4
+  cp a, 0
+  ret nz
+
+  ret
+
+HandleWin:
   ret
 
 HandleKeyPress:
