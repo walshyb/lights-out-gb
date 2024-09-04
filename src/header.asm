@@ -28,6 +28,12 @@ EntryPoint:
   call WaitForOneVBlank
 
   xor a
+  ld [wCurKeys], a
+  ld [wLastKeys], a
+  ld [wNewKeys], a
+  ld [mWaitKey], a
+
+  xor a
   ld [rLCDC], a
 
   ; Load a grayscale palette
@@ -49,35 +55,24 @@ NextGameState::
   call WaitForOneVBlank
   call ClearBackground
 
+  ; Turn off screen
   xor a
   ld [rLCDC], a
 
   call DisableInterrupts
 
-  ld a, [wGameState]
+  ; get game state
+  ;ld a, [wGameState]
 
-  cp 0
-  call z, InitTitleScreen
+  ;cp 0
+  ;call z, InitTitleScreen
+  call DisableInterrupts
 
-  cp 1
+
   call InitLevelEngine
-  call InitCursor
   call z, InitLevel1
-  call DrawCursor
-  call TurnOnLCD
-  ;call LoadTitleScreen
+  call StartLevel
 
-  ;call WaitForOneVBlank
-  ;call InitLevelEngine
-  ;call InitLevel1
-
-  ; Clear OAM
-  ; Initialize OAM data
-  ; Initialize title screen
-  ; Initialize level select screen
-  ; Clear Background
-  ; Clear All Sprites
-  ; Load Title Screen
 
 	jr @
   

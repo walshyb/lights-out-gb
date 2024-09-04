@@ -37,6 +37,44 @@ InitCursor::
 
   ret
 
+MoveCursorLeft::
+  ld a, [wCursorPositionX]
+  add a, -24
+  ld [wCursorPositionX], a
+
+  call DrawCursor
+  ret
+
+MoveCursorRight::
+  ; Disable interupt??
+  ld a, [wCursorPositionX]
+  add a, 24
+  ld [wCursorPositionX], a
+
+  call DrawCursor
+
+  ret
+
+MoveCursorDown::
+  ; Disable interupt??
+  ld a, [wCursorPositionY]
+  add a, 24
+  ld [wCursorPositionY], a
+
+  call DrawCursor
+
+  ret
+
+MoveCursorUp::
+  ; Disable interupt??
+  ld a, [wCursorPositionY]
+  add a, -24
+  ld [wCursorPositionY], a
+
+  call DrawCursor
+
+  ret
+
 ; Render top left, top right, bottom left, bottom right cursor sprites
 DrawCursor::
     ld hl, _OAMRAM
