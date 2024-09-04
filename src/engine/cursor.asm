@@ -46,11 +46,13 @@ InitCursor::
 
 ; On A press, flip tiles
 HandleAPress::
-  ld a, [wCursorCurrentCol] ; load col index into c
-  ld c, a
   ld a, [wCursorCurrentRow] ; load row index into b
   ld b, a
   
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;   Add pattern to mask          ;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;
   ; Add a plus pattern to wGridMask
   ; For example, if row (b) is 1 and col (c) is 1,
   ; the mask grid will look like:
@@ -71,17 +73,17 @@ HandleAPress::
   jr z, .assignRow08
   cp a, -1 ; if a-b == index - 1
   jr z, .assignRow08
-  jr nz, .loop ; else, prep next iteration
+  jr nz, .addPatternLoopEnd ; else, prep next iteration
 .assignRow1C:
   ld a, $1C 
   ; grid[index] = 1c, or %11100
   ld [hl], a ; set grid row to 1C, and inc to next row
-  jr .loop
+  jr .addPatternLoopEnd
 .assignRow08:
   ld a, $08
   ; grid[index] = $08, or %01000
   ld [hl], a ; set grid row to 08, and inc to next row
-.loopEnd:
+.addPatternLoopEnd:
   ; increment hl (grid index) and d (loop counter)
   inc hl
   inc d
@@ -91,19 +93,54 @@ HandleAPress::
   jr nz, .addPatternToMask
 .addPatternToMaskEnd:
 
-
-.shiftGridMask:
-.shiftGridMaskEnd:
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;   Shift Grid Mask              ;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ; Shift every row in wGridMask accordingly
   ; if c == 0:
   ;   shift grid[index] left
   ; if c > 0:
   ;   shift grid[index] right c-1 times
+  ld a, [wCursorCurrentCol] ; load col index into c
+  ld c, a
+  ld hl, wGridMask
+  ld d, 0 ; grid row index
+.shiftGridMask:
+  ld e, c ; grid col index
+  dec e   ; set e to c - 1
+
+  ld a, c
+  cp a, 0
+  ld a, [hl] ; load grid row value into a
+  jr nz, .shiftRowRightETimes
+.shiftRowLeft:
+  ; if col == 0, row left 1 bit. we do this for all rows.
+  ; we actually only need to shift b, b-1, and b+1 rows left,
+  ; but it's easier to just do all of them.
+  sla a ; shift left arithmetic our current row's data
+  ld [hl], a ; load value back into the mask grid's row
+  jr .shiftGridLoopEnd ; next iteration
+.shiftRowRightETimes:
+  srl a
+  dec e
+  jr nz, .shiftRowRightETimes
+  ld [hl], a
+.shiftGridLoopEnd:
+  ; go to next row in grid
+  inc hl
+
+  ; increment row counter
+  inc d
+
+  ; break if d is 5
+  ld a, d
+  cp a, 5
+  jr nz, .shiftGridMask
+.shiftGridMaskEnd:
   
-
-  
-
-
-
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;  XOR level grid against mask   ; 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ; xor's each row in level grid against each row in .grid
   ; this makes it so if there is a 1 in the place in each row, then that bit gets flipped to 0
   ld hl, levelGrid
