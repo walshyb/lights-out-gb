@@ -6,6 +6,7 @@ wCursorPositionX:: db
 wCursorPositionY:: db
 wCursorCurrentRow:: db
 wCursorCurrentCol:: db
+wGridMask:: ds 5
 
 SECTION "Cursor", ROM0
 
@@ -30,12 +31,152 @@ InitCursor::
   ld bc, CursorDataEnd - CursorData
   call MemCpy
 
+  ; Set 5 bytes for grid mask to 0
+  ld de, DefaultGrid
+  ld hl, wGridMask
+  ld bc, DefaultGridEnd - DefaultGrid
+  call MemCpy
+
   ; Set palette to white
   ; TODO: set light palette on OnBlocks and dark palette on OffBlocks
   ld a, 0 ; All white (assuming white is color index 0)
   ld [rOBP0], a
 
   ret
+
+; On A press, flip tiles
+HandleAPress::
+  ld a, [wCursorCurrentCol] ; load col index into c
+  ld c, a
+  ld a, [wCursorCurrentRow] ; load row index into b
+  ld b, a
+  
+  ; Add a plus pattern to wGridMask
+  ; For example, if row (b) is 1 and col (c) is 1,
+  ; the mask grid will look like:
+  ; 01000
+  ; 11100
+  ; 01000
+  ; 00000
+  ; 00000
+  xor a
+  ld d, a ; d is our index
+  ld hl, wGridMask 
+.addPatternToMask:
+  ld a, d ; load index d into a
+  sub a, b ; subtract b from a
+  cp a, 0 ; if b == index
+  jr z, .assignRow1C
+  cp a, 1 ; if a-b == index + 1
+  jr z, .assignRow08
+  cp a, -1 ; if a-b == index - 1
+  jr z, .assignRow08
+  jr nz, .loop ; else, prep next iteration
+.assignRow1C:
+  ld a, $1C 
+  ; grid[index] = 1c, or %11100
+  ld [hl], a ; set grid row to 1C, and inc to next row
+  jr .loop
+.assignRow08:
+  ld a, $08
+  ; grid[index] = $08, or %01000
+  ld [hl], a ; set grid row to 08, and inc to next row
+.loopEnd:
+  ; increment hl (grid index) and d (loop counter)
+  inc hl
+  inc d
+  ; Break if loop hits 5th iteration (because only 5 rows in grid)
+  ld a, d
+  cp a, 5
+  jr nz, .addPatternToMask
+.addPatternToMaskEnd:
+
+
+.shiftGridMask:
+.shiftGridMaskEnd:
+  ; if c == 0:
+  ;   shift grid[index] left
+  ; if c > 0:
+  ;   shift grid[index] right c-1 times
+  
+
+  
+
+
+
+  ; xor's each row in level grid against each row in .grid
+  ; this makes it so if there is a 1 in the place in each row, then that bit gets flipped to 0
+  ld hl, levelGrid
+  ld de, wGridMask
+
+  ld a, [hl] ; first value in level grid into a
+  push hl
+  ld h, d
+  ld l, e
+  ld b, [hl] ; store first value in .grid into b
+  pop hl
+  xor b      ; and result store in a
+  ld [hli], a ; update level grid row (+ inc levelgrid row)
+  inc de  ; inc .grid row
+
+  ld a, [hl] ; first value in level grid into a
+  push hl
+  ld h, d
+  ld l, e
+  ld b, [hl] ; store first value in .grid into b
+  pop hl
+  xor b      ; and result store in a
+  ld [hli], a ; update level grid row (+ inc levelgrid row)
+  inc de  ; inc .grid row
+
+  ld a, [hl] ; first value in level grid into a
+  push hl
+  ld h, d
+  ld l, e
+  ld b, [hl] ; store first value in .grid into b
+  pop hl
+  xor b      ; and result store in a
+  ld [hli], a ; update level grid row (+ inc levelgrid row)
+  inc de  ; inc .grid row
+
+  ld a, [hl] ; first value in level grid into a
+  push hl
+  ld h, d
+  ld l, e
+  ld b, [hl] ; store first value in .grid into b
+  pop hl
+  xor b      ; and result store in a
+  ld [hli], a ; update level grid row (+ inc levelgrid row)
+  inc de  ; inc .grid row
+
+  ld a, [hl] ; first value in level grid into a
+  push hl
+  ld h, d
+  ld l, e
+  ld b, [hl] ; store first value in .grid into b
+  pop hl
+  xor b      ; and result store in a
+  ld [hli], a ; update level grid row (+ inc levelgrid row)
+  inc de  ; inc .grid row
+
+  call WaitForOneVBlank
+  ld a, 0
+  ld [rLCDC], a
+  call RenderBlocks
+
+  call TurnOnLCD
+
+  ; TODO: reset .grid back to 0?
+
+  ret
+
+.grid:
+  db %00000 ; 00
+  db %00000 ; 00
+  db %00000 ; 00
+  db %00000 ; 00
+  db %00000 ; 00
+.gridEnd:
 
 MoveCursorLeft::
   ; If farthest left we can go, just return

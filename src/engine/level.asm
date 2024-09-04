@@ -84,14 +84,18 @@ HandleKeyPress:
   and PADF_DOWN
   call nz, MoveCursorDown
 
+  ld a, [wCurKeys]
+  and PADF_A
+  call nz, HandleAPress
+
   ret
   
 
-DefaultGrid:
+DefaultGrid::
   db %00000
   db %00000
   db %00000
   db %00000
   db %00000
-DefaultGridEnd:
+DefaultGridEnd::
 
