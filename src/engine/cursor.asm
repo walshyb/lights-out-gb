@@ -38,39 +38,73 @@ InitCursor::
   ret
 
 MoveCursorLeft::
+  ; If farthest left we can go, just return
+  ld a, [wCursorCurrentCol]
+  cp a, 0
+  ret z
+
+  ; Update col index
+  dec a
+  ld [wCursorCurrentCol], a
+
+  ; Move cursor sprite
   ld a, [wCursorPositionX]
   add a, -24
   ld [wCursorPositionX], a
-
   call DrawCursor
+
   ret
 
 MoveCursorRight::
-  ; Disable interupt??
+  ; If farthest left we can go, just return
+  ld a, [wCursorCurrentCol]
+  cp a, 4
+  ret z
+
+  ; Update col index
+  inc a
+  ld [wCursorCurrentCol], a
+
+  ; Move cursor sprite
   ld a, [wCursorPositionX]
   add a, 24
   ld [wCursorPositionX], a
-
   call DrawCursor
 
   ret
 
 MoveCursorDown::
-  ; Disable interupt??
+  ; If farthest left we can go, just return
+  ld a, [wCursorCurrentRow]
+  cp a, 4
+  ret z
+
+  ; Update row index
+  inc a
+  ld [wCursorCurrentRow], a
+
+  ; Move cursor sprite
   ld a, [wCursorPositionY]
   add a, 24
   ld [wCursorPositionY], a
-
   call DrawCursor
 
   ret
 
 MoveCursorUp::
-  ; Disable interupt??
+  ; If farthest left we can go, just return
+  ld a, [wCursorCurrentRow]
+  cp a, 0
+  ret z
+
+  ; Update row index
+  dec a
+  ld [wCursorCurrentRow], a
+
+  ; Move cursor sprite
   ld a, [wCursorPositionY]
   add a, -24
   ld [wCursorPositionY], a
-
   call DrawCursor
 
   ret
