@@ -69,6 +69,8 @@ NextGameState::
   call DisableInterrupts
 
 
+  call InitTitleScreen 
+
   call InitLevelEngine
   call z, InitLevel1
   call StartLevel
