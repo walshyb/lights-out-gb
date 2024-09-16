@@ -1,4 +1,5 @@
 INCLUDE "hardware.inc/hardware.inc"
+INCLUDE "util/text-macros.inc"
 
 SECTION "Title Screen", ROM0
 
@@ -13,17 +14,27 @@ titleScreenTileDataEnd:
 Tilemap:  INCBIN "assets/title-spritesheet.tilemap"
 TilemapEnd:
 
+PressPlayText:: db "press a to start", 255
+
 InitTitleScreen::
-  call DrawTitleScreen
+  call DrawLogo
+
+  call LoadTextFontIntoVRAM
+
+  ld a, LCDCF_WIN9800 | LCDCF_BG9C00 | LCDCF_WINON | LCDCF_BGON
+  ld [rLCDC], a
+
+  call DrawPlayText
 
   ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON | LCDCF_OBJ16
   ld [rLCDC], a
+
 
   jr UpdateTitleScreenState
 
   ret
 
-DrawTitleScreen::
+DrawLogo::
   ld de, titleScreenTileData
   ld hl, $9000
   ld bc, titleScreenTileDataEnd - titleScreenTileData
@@ -34,6 +45,12 @@ DrawTitleScreen::
   ld bc, TilemapEnd - Tilemap
   call MemCpy
 
+  ret
+
+DrawPlayText::
+  ld de, $9A02
+  ld hl, PressPlayText
+  call DrawTextTiles
   ret
 
 

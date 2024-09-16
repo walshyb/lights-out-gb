@@ -1,13 +1,14 @@
 SECTION "Text", ROM0
 
-textFontTileData: INCBIN "assets/fonts/text-font.2bpp"
+textFontTileData: INCBIN "assets/Insigbyte.2bpp"
 textFontTileDataEnd:
 
 LoadTextFontIntoVRAM::
   ld de, textFontTileData 
-  ld hl, $9000
+  ld hl, $8800
   ld bc, textFontTileDataEnd - textFontTileData 
-  jp MemCpy
+  call MemCpy
+  ret
 
 ; @param hl the address of the start of the string we want to write
 ; @param de the address where we want to start writing
