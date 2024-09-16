@@ -20,15 +20,10 @@ InitTitleScreen::
   call DrawLogo
 
   call LoadTextFontIntoVRAM
-
-  ld a, LCDCF_WIN9800 | LCDCF_BG9C00 | LCDCF_WINON | LCDCF_BGON
-  ld [rLCDC], a
-
   call DrawPlayText
 
-  ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON | LCDCF_OBJ16
+  ld a, LCDCF_ON | LCDCF_BGON
   ld [rLCDC], a
-
 
   jr UpdateTitleScreenState
 

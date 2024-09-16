@@ -22,6 +22,11 @@ DrawTextTilesLoop:
 
   ; Write current character (in hl) to the address on the tilemap
   ld a, [hli]
+  
+  ; subtract the value in a (the tile index) by $80 
+  ; so we can read from the font tile data in vram, opposed to
+  ; the background data
+  sub $80
   ld [de], a
   inc de
 
