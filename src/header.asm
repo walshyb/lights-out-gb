@@ -62,19 +62,17 @@ NextGameState::
   call DisableInterrupts
 
   ; get game state
-  ;ld a, [wGameState]
+  ; update screen based on game state
+  ld a, [wGameState]
+  cp 0
 
-  ;cp 0
-  ;call z, InitTitleScreen
-  call DisableInterrupts
-
-
-  call InitTitleScreen 
+  call z, InitTitleScreen
 
   call InitLevelEngine
   call z, InitLevel1
+
   call StartLevel
 
-
+  ; Loop NextGameState forever
 	jr @
   
