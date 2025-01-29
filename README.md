@@ -1,6 +1,6 @@
 # GB Lights Out
 
-![Title screen of Lights Out](./screenshots/title-screenshot.png)
+<img src="./screenshots/title-screenshot.png" alt="Title screen of Lights Out" width="300px" />
 
 My Game Boy version of the 1995 handheld electronic game, Lights Out! This project scratches both of my itches of 1) learning an assembly language and 2) getting into game development.
 
@@ -16,4 +16,4 @@ Challenges I've run into and learned from, thus far:
 
 ## Screenshots
 
-![Level example screenshot](./screenshots/level1-screenshot.png)
+<img src="./screenshots/level1-screenshot.png" alt="Level example screenshot" width="300px" />
