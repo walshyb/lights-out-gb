@@ -66,14 +66,14 @@ NextGameState::
   ld a, [wGameState]
   cp 0
 
-  call z, InitLevelSelectScreen
+  ;call z, InitLevelSelectScreen
 
-  ;call z, InitTitleScreen
+  call z, InitTitleScreen
 
-  ;call InitLevelEngine
-  ;call z, InitLevel1
+  call InitLevelEngine
+  call z, InitLevel1
 
-  ;call StartLevel
+  call StartLevel
 
   ; Loop NextGameState forever
 	jr @
