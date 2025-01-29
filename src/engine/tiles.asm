@@ -167,3 +167,159 @@ OnTileBottomRight:
   dw `33333333
   dw `33333333
 OnTileBottomRightEnd:
+
+InitLevelSelectTiles::
+  ; load level tiles
+  ld de, MiddleTile
+  ld hl, $9000
+  ld bc, 16
+  call MemCpy
+
+  ld de, OnesLeftTile 
+  ld hl, $9010
+  ld bc, 16
+  call MemCpy
+
+  ld de, OnesRightTile 
+  ld hl, $9020
+  ld bc, 16
+  call MemCpy
+
+  ld de, TwosLeftTile 
+  ld hl, $9030
+  ld bc, 16
+  call MemCpy
+
+  ld de, TwosRightTile 
+  ld hl, $9040
+  ld bc, 16
+  call MemCpy
+
+  ld de, ThreesLeftTile 
+  ld hl, $9050
+  ld bc, 16
+  call MemCpy
+
+  ld de, ThreesRightTile 
+  ld hl, $9060
+  ld bc, 16
+  call MemCpy
+
+  ld de, FoursLeftTile 
+  ld hl, $9070
+  ld bc, 16
+  call MemCpy
+
+  ld de, FoursRightTile 
+  ld hl, $9080
+  ld bc, 16
+  call MemCpy
+
+  ret
+
+MiddleTile:
+  db $FF, $FF ; dw `33333333
+  db $FF, $FF
+  db $FF, $FF
+  db $FF, $FF
+  db $FF, $FF
+  db $FF, $FF
+  db $FF, $FF
+  db $FF, $FF
+MiddleTileEnd:
+
+; Tile for left side of level select blocks in leftmost column (i.e. 1) in a row
+OnesLeftTile:
+  dw `11111133
+  dw `11111133
+  dw `11111133
+  dw `11111133
+  dw `11111133
+  dw `11111133
+  dw `11111133
+  dw `11111133
+OnesLeftTileEnd:
+
+; Tile for right side of level select blocks in leftmost column (i.e. 1) in a row
+OnesRightTile:
+  dw `33111111
+  dw `33111111
+  dw `33111111
+  dw `33111111
+  dw `33111111
+  dw `33111111
+  dw `33111111
+  dw `33111111
+OnesRightTileEnd:
+
+; Left side of 2 block
+TwosLeftTile:
+  dw `11133333
+  dw `11133333
+  dw `11133333
+  dw `11133333
+  dw `11133333
+  dw `11133333
+  dw `11133333
+  dw `11133333
+TwosLeftTileEnd:
+
+; Right side of 2 block
+TwosRightTile:
+ dw `33311111
+ dw `33311111
+ dw `33311111
+ dw `33311111
+ dw `33311111
+ dw `33311111
+ dw `33311111
+ dw `33311111
+TwosRightTileEnd:
+
+; Left side of 3 block
+ThreesLeftTile:
+  dw `13333333
+  dw `13333333
+  dw `13333333
+  dw `13333333
+  dw `13333333
+  dw `13333333
+  dw `13333333
+  dw `13333333
+ThreesLeftTileEnd:
+
+; Right side of 3 block
+ThreesRightTile:
+  dw `31111111
+  dw `31111111
+  dw `31111111
+  dw `31111111
+  dw `31111111
+  dw `31111111
+  dw `31111111
+  dw `31111111
+ThreesRightTileEnd:
+
+; Left side of 4 block
+FoursLeftTile:
+  dw `11111333
+  dw `11111333
+  dw `11111333
+  dw `11111333
+  dw `11111333
+  dw `11111333
+  dw `11111333
+  dw `11111333
+FoursLeftTileEnd:
+
+; Right side of 4 block
+FoursRightTile:
+  dw `33333111
+  dw `33333111
+  dw `33333111
+  dw `33333111
+  dw `33333111
+  dw `33333111
+  dw `33333111
+  dw `33333111
+FoursRightTileEnd:
