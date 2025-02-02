@@ -124,6 +124,11 @@ HandleAPress::
   ; we actually only need to shift b, b-1, and b+1 rows left,
   ; but it's easier to just do all of them.
   sla a ; shift left arithmetic our current row's data
+
+  ; %11100 shifted left once makes %00111000, so we
+  ; reset 5th bit to 0 in this case to make it %11000
+  res 5, a 
+
   ld [hl], a ; load value back into the mask grid's row
   jr .shiftGridLoopEnd ; next iteration
 .shiftRowRightETimes:

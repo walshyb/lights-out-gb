@@ -68,7 +68,7 @@ NextGameState::
 
   ;call z, InitLevelSelectScreen
 
-  call z, InitTitleScreen
+  ;call z, InitTitleScreen
 
   call InitLevelEngine
   call z, InitLevel1
