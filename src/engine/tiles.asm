@@ -169,112 +169,117 @@ OnTileBottomRight:
 OnTileBottomRightEnd:
 
 InitLevelSelectTiles::
-  ; load level tiles
-  ld de, MiddleTile
+  ld de, BlackTile
   ld hl, $9000
   ld bc, 16
   call MemCpy
 
-  ld de, OnesLeftTile 
+  ; load level tiles
+  ld de, MiddleTile
   ld hl, $9010
   ld bc, 16
   call MemCpy
 
-  ld de, OnesRightTile 
+  ld de, OnesLeftTile 
   ld hl, $9020
   ld bc, 16
   call MemCpy
 
-  ld de, TwosLeftTile 
+  ld de, OnesRightTile 
   ld hl, $9030
   ld bc, 16
   call MemCpy
 
-  ld de, TwosRightTile 
+  ld de, TwosLeftTile 
   ld hl, $9040
   ld bc, 16
   call MemCpy
 
-  ld de, ThreesLeftTile 
+  ld de, TwosRightTile 
   ld hl, $9050
   ld bc, 16
   call MemCpy
 
-  ld de, ThreesRightTile 
+  ld de, ThreesLeftTile 
   ld hl, $9060
   ld bc, 16
   call MemCpy
 
-  ld de, FoursLeftTile 
+  ld de, ThreesRightTile 
   ld hl, $9070
   ld bc, 16
   call MemCpy
 
-  ld de, FoursRightTile 
+  ld de, FoursLeftTile 
   ld hl, $9080
+  ld bc, 16
+  call MemCpy
+
+  ld de, FoursRightTile 
+  ld hl, $9090
   ld bc, 16
   call MemCpy
 
   ret
 
 MiddleTile:
-  db $FF, $FF ; dw `33333333
-  db $FF, $FF
-  db $FF, $FF
-  db $FF, $FF
-  db $FF, $FF
-  db $FF, $FF
-  db $FF, $FF
-  db $FF, $FF
+  dw `11111111
+  dw `11111111
+  dw `11111111
+  dw `11111111
+  dw `11111111
+  dw `11111111
+  dw `11111111
+  dw `11111111
 MiddleTileEnd:
-
-; Tile for left side of level select blocks in leftmost column (i.e. 1) in a row
-OnesLeftTile:
-  dw `11111133
-  dw `11111133
-  dw `11111133
-  dw `11111133
-  dw `11111133
-  dw `11111133
-  dw `11111133
-  dw `11111133
-OnesLeftTileEnd:
 
 ; Tile for right side of level select blocks in leftmost column (i.e. 1) in a row
 OnesRightTile:
-  dw `33111111
-  dw `33111111
-  dw `33111111
-  dw `33111111
-  dw `33111111
-  dw `33111111
-  dw `33111111
-  dw `33111111
+  dw `11111133
+  dw `11111133
+  dw `11111133
+  dw `11111133
+  dw `11111133
+  dw `11111133
+  dw `11111133
+  dw `11111133
 OnesRightTileEnd:
 
-; Left side of 2 block
-TwosLeftTile:
-  dw `11133333
-  dw `11133333
-  dw `11133333
-  dw `11133333
-  dw `11133333
-  dw `11133333
-  dw `11133333
-  dw `11133333
-TwosLeftTileEnd:
+; Tile for left side of level select blocks in leftmost column (i.e. 1) in a row
+OnesLeftTile:
+  dw `33333311
+  dw `33333311
+  dw `33333311
+  dw `33333311
+  dw `33333311
+  dw `33333311
+  dw `33333311
+  dw `33333311
+OnesLeftTileEnd:
 
 ; Right side of 2 block
 TwosRightTile:
- dw `33311111
- dw `33311111
- dw `33311111
- dw `33311111
- dw `33311111
- dw `33311111
- dw `33311111
- dw `33311111
+  dw `11133333
+  dw `11133333
+  dw `11133333
+  dw `11133333
+  dw `11133333
+  dw `11133333
+  dw `11133333
+  dw `11133333
 TwosRightTileEnd:
+
+; Left side of 2 block
+TwosLeftTile:
+ dw `33311111
+ dw `33311111
+ dw `33311111
+ dw `33311111
+ dw `33311111
+ dw `33311111
+ dw `33311111
+ dw `33311111
+TwosLeftTileEnd:
 
 ; Left side of 3 block
 ThreesLeftTile:
