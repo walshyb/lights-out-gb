@@ -14,6 +14,25 @@ Challenges I've run into and learned from, thus far:
 - Reading and updating memory dynamically, and having changes reflected on screen
 - Sprite movement
 
+## Road Map
+
+- [x] Start screen
+- [ ] Level engine
+  - [x] Print level grid
+  - [x] Ability to move cursor
+  - [x] Flip tiles on click
+  - [x] Win condition check
+  - [ ] Level HUD (number of moves)
+  - [ ] Win screen
+- [ ] Save states
+- [ ] Level select screen
+  - [x] Print "box" for each level
+  - [ ] Level select cursor
+  - [ ] Start level on click
+  - [ ] Display completion state of levels
+- [ ] Credits
+- [ ] Tutorial
+
 ## Screenshots
 
 <img src="./screenshots/level1-screenshot.png" alt="Level example screenshot" width="300px" />
