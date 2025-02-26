@@ -14,7 +14,6 @@ numLevels:: ds 1
 
 SECTION "Level Select", ROM0
 
-
 levelSelectTileData: INCBIN "assets/levelselect.2bpp"
 levelSelectTileDataEnd:
 
@@ -22,6 +21,9 @@ levelSelectTilemap: INCBIN "assets/levelselect.tilemap"
 levelSelectTilemapEnd:
 
 InitLevelSelectScreen::
+  ld a, $0010
+  ld [numLevels], a
+
   call InitLevelSelectTiles
   call DrawLevelSelectBackground
 
@@ -40,22 +42,49 @@ InitLevelSelectScreen::
   ; allow player input
 
 DrawLevelSelectBackground:
-  ld hl, $9861
+  ld hl, $9841
   ld a, 2
   ld [levelSelectTileOffset], a
 
   ; bc will contain our counters
-  ; b will keep track of tiles left to print
-  ; c keeps track of how many levels we have left to print
-  ld bc, $0304
+  ; b will keep track of tile lines left to print for current block (3 tiles * 3 lines)
+  ; c is our loop counter, or how many level blocks we've printed
+  ld bc, $0300
 
   ; Draw row of blocks
   .draw_blocks_loop:
-    ; If c is 0, we've printed all a block for each level
+    push hl
+
+    ; Break if we've printed all the levels
+    ; If our counter c equals [numLevels], end
+    ld a, [numLevels]
+    ld l, a
+    ld a, c
+    cp a, l
+    pop hl
+    jr z, .draw_blocks_loop_end
+
+    ; if counter is 0, draw block as is
     ld a, c
     cp 0
-    jr z, .draw_blocks_loop_end
-    
+    jr z, .draw_block
+
+    ; If there is a 1 in bits 0 or 1, draw block.
+    ; This is effectively modulo by 4 ( c % 4). We only want 
+    ; 4 blocks per line.
+    ; If we printed 4, then start a new line and move the
+    ; hl pointer to the start of the new row
+    bit 0, a
+    jr nz, .draw_block
+    bit 1, a
+    jr nz, .draw_block
+
+    ; Move the hl to the start of the next line
+    .move_down_one_row:
+    ld de, $70
+    add hl, de
+
+    .draw_block:
     push hl
 
     ; draw 3 rows of tiles for current block
@@ -104,22 +133,12 @@ DrawLevelSelectBackground:
     ld b, a
 
     ; TODO maybe check for end loop here?
-    ; subtrack 1 from level counter
+    ; add 1 to level counter
     ld a, c
-    sub 1
+    inc a
     ld c, a
     jr .draw_blocks_loop
 
-    ; TODO: jump down 1 row after printing 4 blocks
-
-
   .draw_blocks_loop_end:
 
-
-
-
-
-
-    
-  
   ret
