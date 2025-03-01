@@ -21,14 +21,20 @@ levelSelectTilemap: INCBIN "assets/levelselect.tilemap"
 levelSelectTilemapEnd:
 
 InitLevelSelectScreen::
-  ld a, $0010
+  ; Load number of levels into numLevels variable!
+  ld a, $0009
   ld [numLevels], a
 
   call InitLevelSelectTiles
   call DrawLevelSelectBackground
+  call LoadTextFontIntoVRAM
+
+  ld a, 146
+  ld [$9C0A], a
 
   ld a, LCDCF_ON | LCDCF_BGON
   ld [rLCDC], a
+
 
   ret
 
@@ -70,7 +76,7 @@ DrawLevelSelectBackground:
     jr z, .draw_block
 
     ; If there is a 1 in bits 0 or 1, draw block.
-    ; This is effectively modulo by 4 ( c % 4). We only want 
+    ; This is effectively modulo by 4 (c % 4). We only want 
     ; 4 blocks per line.
     ; If we printed 4, then start a new line and move the
     ; hl pointer to the start of the new row
@@ -102,8 +108,33 @@ DrawLevelSelectBackground:
       ld a, 1
       ld [hli], a
 
+      ; .load_level_num_or_1 
+      ; checks to see if we're about to
+      ; print the "middle" tile in the level block.
+      ; if we are, print the level number, 
+      ; else, print a solid box
+      .load_level_num_or_solid_box:
+      ; If we're in the second row,
+      ; print the level num
+      ld a, b
+      cp 2
+      jr nz, .load_solid_box
+
+      ; TODO
+      ; handle nums more than 10!
+      ; handle printing 2 digit nums
+      ld a, c
+      add 145
+      jr .load_solid_box_end
+
+      .load_solid_box: 
       ld a, 1
+      .load_solid_box_end:
+
       ld [hli], a
+      .load_level_num_or_solid_box_end:
+
+
 
       ld a, [levelSelectTileOffset]
       add 1
