@@ -28,21 +28,19 @@ InitLevelSelectScreen::
   call InitLevelSelectTiles
   call DrawLevelSelectBackground
   call LoadTextFontIntoVRAM
+  call InitLevelSelectCursor
+  call DrawLevelSelectCursor
 
-  ld a, 146
-  ld [$9C0A], a
-
-  ld a, LCDCF_ON | LCDCF_BGON
+  ; Turn on screen
+  ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON
   ld [rLCDC], a
 
+  
+  .screen_loop:
+    call HandleKeyPress
+    jr .screen_loop
 
   ret
-
-  ; call InitLevelSelectTiles
-  ; load cursor sprite
-  ; draw tiles
-  ;   start at $9860
-
 
   ; TODO: fetch save data
   ; allow player input
@@ -171,5 +169,42 @@ DrawLevelSelectBackground:
     jr .draw_blocks_loop
 
   .draw_blocks_loop_end:
+
+  ret
+
+HandleKeyPress:
+  ; Super ugly and annoying,
+  ; but wait 8 VBlanks before processing key.
+  ; Not waiting for these vblanks makes processing go SUPER speed
+  call Input
+  ld a, 250
+  ld [wVBlankCount], a
+  call WaitForVBlankFunction
+
+  ; Ideally, I want to do just this.
+  ; but i can't *upsidedown face*
+  ; it infinite loops randomly??
+  ; and sometimes it will process all keys but one??
+  ;call WaitForKeyFunction
+
+  ld a, [wCurKeys]
+  and PADF_LEFT
+  call nz, MoveLevelSelectCursorLeft
+
+  ld a, [wCurKeys]
+  and PADF_RIGHT
+  call nz, MoveLevelSelectCursorRight
+
+  ld a, [wCurKeys]
+  and PADF_UP
+  call nz, MoveLevelSelectCursorUp
+
+  ld a, [wCurKeys]
+  and PADF_DOWN
+  call nz, MoveLevelSelectCursorDown
+
+  ld a, [wCurKeys]
+  and PADF_A
+  call nz, HandleAPress
 
   ret
